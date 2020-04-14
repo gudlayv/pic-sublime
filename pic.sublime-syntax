@@ -1,0 +1,93 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - asm
+scope: source.assembly
+variables:
+  simple_word: '[a-zA-Z0-9\_]+'
+
+contexts:
+  main:
+    - match: \b(?i)(ADDWF|ADDWFC|ANDWF|ASRF|LSLF|LSRF|CLRF|CLRW|COMF|DECF|INCF|IORWF|MOVF|MOVWF|RLF|RRF|SUBWF|SUBWFB|SWAPF|XORWF|DECFSZ|INCFSZ|BCF|BSF|BTFSC|BTFSS|ADDLW|ANDLW|IORLW|MOVLB|MOVLP|MOVLW|SUBLW|XORLW|RETFIE|RETLW|RETURN|CLRWDT|NOP|OPTION|RESET|SLEEP|TRIS|ADDFSR|MOVIW|MOVWI)\b
+      scope: keyword.control.assembly
+
+    - match: \b(?i)(f|w)\b
+      scope: variable.parameter
+
+    - match: \b[0-9]+\b
+      scope: constant.character.decimal.assembly
+
+    - match: \#\b(?i)(IFDEF|IFNDEF|ELSE|ENDIF|BANKSEL|PAGESEL)\b
+      scope: constant.character.decimal.assembly
+
+    - match: \bSetBank[0-9A-Za-z]+\b
+      scope: constant.character.decimal.assembly
+
+    - match: \b(0x)(?i)[A-F0-9]+\b
+      scope: constant.character.hexadecimal.assembly
+
+    - match: \b(?i)[A-F0-9]+h\b
+      scope: constant.character.hexadecimal.assembly
+
+    - match: \b(?i)(0|1)+b\b
+      scope: constant.character.binary.assembly
+
+    - match: (\"|').*?(\"|')
+      scope: string.assembly
+
+    - match: \b(?i)(PAGESEL|BRA|CALL|CALLW|GOTO)\b
+      scope: variable.parameter
+      push:  call
+
+    - match: \b(?i)({{simple_word}})\s+(equ)\b
+      captures:
+        1: keyword
+        2: variable.parameter
+      push:  extends
+
+    - match: \#\b(?i)(define)\s+({{simple_word}})\b
+      captures:
+        1: keyword
+        2: variable.parameter
+      push:  extends
+
+    - match: \b(?i)(BRW)\b
+      scope: variable.parameter
+      set:
+        - match: .+$
+          scope: invalid.illegal.
+        - match: $
+          pop: true
+
+    - match: \b(?i)(BANKSEL)\s({{simple_word}})\b
+      captures:
+        1: constant.numeric
+        2: keyword
+
+    - match: (\s)*;.*$
+      scope: comment.assembly
+
+    - match: ^({{simple_word}}:)$
+      scope: entity.name.function.assembly
+
+  extends:
+    - include: main
+    - match: $
+      pop: true
+
+  call:
+    - match: \s{{simple_word}}$
+      scope: variable.function
+    - match: \s\$(\+\.[0-9]+|\-\.[0-9]+)$
+      scope: variable.function
+    - match: (\s)*;.*$
+      scope: comment.assembly
+    - match: \s\$.+$
+      scope: invalid.illegal.assembly
+    - match: $
+      pop: true
+
+
+
+

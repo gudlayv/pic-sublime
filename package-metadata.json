@@ -1,0 +1,8 @@
+{
+  "version": "V0.01",
+  "url": "https://github.com/gudlayv/pic-sublime",
+  "platforms": ["*"],
+  "sublime_text": "*",
+  "dependencies": [],
+  "description": "Sublime Text Syntax Highlight for PIC Assembly"
+}

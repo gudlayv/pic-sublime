@@ -1,0 +1,16 @@
+<snippet>
+    <content><![CDATA[
+;===========================================
+; Если ${1:varible} < ${2:val}, тогда ${5:что-то}
+;===========================================
+movf ${1:varible},w 
+addlw .255-.${2:val} ; < ${2:val} 
+btfsc STATUS,C 
+${3:false}
+${4:true} 
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>less</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.assembly</scope>
+</snippet>

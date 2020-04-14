@@ -1,0 +1,11 @@
+<snippet>
+    <content><![CDATA[
+#IFDEF  ${1:DEFINE}
+    ${2}
+#ENDIF  ;${1:DEFINE}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>dif</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.assembly</scope>
+</snippet>
